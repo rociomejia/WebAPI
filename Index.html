@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+  <!--  <link href="https://odn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+</head>
+
+<body>
+    <h1>Users:</h1>
+    <ul class="ul">
+    </ul>
+    <div class="p-3">
+        <h2 class="text-center mb-5">List of Clients</h2>
+        
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>phone</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Created</th>
+
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadTableData(data) {
+            const tableBody = document.getElementById("tableBody");
+            data.forEach(item => {
+                let row = tableBody.insertRow();
+                let address = row.insertCell(0);
+                address.innerHtml = item.address;
+
+                let creteDateAt = row.insertCell(1);
+                creteDateAt.innerHtml = item.address;
+
+                let email = row.insertCell(2);
+                email.innerHtml = item.email;
+
+                let name = row.insertCell(3);
+                name.innerHtml = item.firstName + "** " + item.lastName;
+
+
+                let id = row.insertCell(4);
+                id.innerHtml = item.Id;
+
+                let phone = row.insertCell(5);
+                phone.innerHtml = item.phone;
+
+                let status = row.insertCell(6);
+                status.innerHtml = item.status;
+
+            }
+            );
+        }
+        fetch("https://localhost:4000/api/clients")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(user => {
+                   
+                    const markup = "<li>${user.id}</li>";
+
+                    document.querySelector('ul').insertAdjacentHTML('beforeend', '<li>' + user.firstName + '</li>');
+                 
+                });
+            })
+
+            .catch((error) => {
+                console.log("error", error);
+            });
+    </script>
+    <!-- <script src="https://odn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.bundle.min.js"></script>-->
+
+</body>
+</html>

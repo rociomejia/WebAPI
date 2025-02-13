@@ -1,0 +1,56 @@
+﻿@page "/Clients"
+@using BlazorApp.Models
+
+@model BlazorApp.Client
+
+
+<h1 class="text-center mb-3">List of clients</h1>
+<a class="btn btn-primary mb-3" href="/Clients/Create">New client</a>
+
+@if (clients == null)
+{
+	<p>Loading</p>
+}
+else
+{
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>phone</th>
+			<th>Status</th>
+			<th>Created</th>
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			@foreach (var client in clients)
+			{
+				<tr>
+					<td>@client.Id</td>
+					<td>@client.FirstName</td>
+					<td>@invoice.Status</td>
+					<td>@invoice.ClientName</td>
+					<td>@(invoice.Quantity = (int)invoice.UnitPrice)$</td>
+					<td>@invoice.IssueDate</td>
+					<td>@invoice.DueDate</td>
+					<td>
+						<a class="btn btn-primary btn-sm" asp-page="/client/Edit" asp-route-id="@client.Id">Edit</a>
+						<a class="btn btn-danger btn-sm" asp-page="/Client/Delete" asp-route-id="@invoice.Id">Delete</a>
+					</td>
+				</tr>
+			}
+
+		</tbody>
+	</table>
+}
+
+@inject HttpClient Http
+@code {
+	private List<client>? clients;
+	protected override async Task OnInitializedAsync()
+	{
+		clients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:4000/apiClients");
+	}
+}
